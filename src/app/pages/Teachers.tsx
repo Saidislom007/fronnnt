@@ -21,7 +21,7 @@ export function Teachers() {
     try {
       setLoading(true);
       // Backend API manzili
-      const response = await fetch('http://127.0.0.1:8000/api/teachers/');
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/teachers/`);
       
       if (!response.ok) {
         throw new Error('Ma\'lumot olishda xatolik');

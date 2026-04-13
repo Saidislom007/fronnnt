@@ -52,7 +52,7 @@ export function Gallery() {
   const fetchGalleryPhotos = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://127.0.0.1:8000/api/gallery/photos/');
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/gallery/photos/`);
       
       if (!response.ok) {
         throw new Error('Ma\'lumot olishda xatolik');
@@ -311,7 +311,7 @@ export function Gallery() {
                 >
                   <div className="aspect-square overflow-hidden bg-gray-100 dark:bg-gray-800">
                     <ImageWithFallback
-                      src={photo.image ? `http://127.0.0.1:8000${photo.image}` : "/default-image.jpg"}
+                      src={photo.image ? `${import.meta.env.VITE_API_URL}${photo.image}` : "/default-image.jpg"}
                       alt={photo.title}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
@@ -420,7 +420,7 @@ export function Gallery() {
             </button>
             <div className="h-[60vh] overflow-hidden">
               <ImageWithFallback
-                src={selectedPhoto.image ? `http://127.0.0.1:8000${selectedPhoto.image}` : "/default-image.jpg"}
+                src={selectedPhoto.image ? `${import.meta.env.VITE_API_URL}${selectedPhoto.image}` : "/default-image.jpg"}
                 alt={selectedPhoto.title}
                 className="w-full h-full object-contain"
               />

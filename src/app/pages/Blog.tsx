@@ -42,7 +42,7 @@ export function Blog() {
   const fetchBlogPosts = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://127.0.0.1:8000/api/blog/');
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/blog/`);
       
       if (!response.ok) {
         throw new Error('Ma\'lumot olishda xatolik');

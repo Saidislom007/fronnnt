@@ -29,17 +29,17 @@ export function Library() {
       setLoading(true);
       
       // Elektron kitoblar
-      const ebooksRes = await fetch('http://127.0.0.1:8000/api/library/?type=ebook');
+      const ebooksRes = await fetch(`${import.meta.env.VITE_API_URL}/api/library/?type=ebook`);
       const ebooksData = await ebooksRes.json();
       setEbooks(ebooksData.results || ebooksData);
       
       // Darsliklar
-      const textbooksRes = await fetch('http://127.0.0.1:8000/api/library/?type=textbook');
+      const textbooksRes = await fetch(`${import.meta.env.VITE_API_URL}/api/library/?type=textbook`);
       const textbooksData = await textbooksRes.json();
       setTextbooks(textbooksData.results || textbooksData);
       
       // Qo'llanmalar
-      const guidesRes = await fetch('http://127.0.0.1:8000/api/library/?type=guide');
+      const guidesRes = await fetch(`${import.meta.env.VITE_API_URL}/api/library/?type=guide`);
       const guidesData = await guidesRes.json();
       setGuides(guidesData.results || guidesData);
       
@@ -58,7 +58,7 @@ export function Library() {
       // To'liq URL ni yaratish
       const fullUrl = fileUrl.startsWith('http') 
         ? fileUrl 
-        : `http://127.0.0.1:8000${fileUrl}`;
+        : `${import.meta.env.VITE_API_URL}${fileUrl}`;
       
       console.log('Yuklab olish URL:', fullUrl);
       
