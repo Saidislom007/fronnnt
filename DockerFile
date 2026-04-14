@@ -1,24 +1,22 @@
-# 1-bosqich: Node obrazini tanlaymiz
 FROM node:18-alpine
+
 WORKDIR /app
 
 # Bog'liqliklarni o'rnatish
-COPY package.json package-lock.json ./
+COPY package.json ./
+# package-lock.json bo'lsa uni ham qo'shing, bo'lmasa pastdagini o'zi yetarli
 RUN npm install
 
-# Loyiha kodini nusxalash
 COPY . .
 
-# Railway build o'zgaruvchisini qabul qilish
+# Railway uchun build o'zgaruvchisi
 ARG VITE_API_URL
 ENV VITE_API_URL=$VITE_API_URL
 
 # Loyihani build qilish
 RUN npm run build
 
-# Portni ochish
+# Vite-ni 0.0.0.0 hostida va 5173 portida majburiy yurgizish
+# --host 0.0.0.0 bo'lmasa Railway serveringizni ko'ra olmaydi (502 beradi)
 EXPOSE 5173
-
-# Vite-ni barcha interfeyslar (0.0.0.0) uchun 5173 portida ishga tushiramiz
-# --host 0.0.0.0 qatori 502 xatosini yo'qotish uchun ENG MUHIMI
 CMD ["npx", "vite", "preview", "--host", "0.0.0.0", "--port", "5173"]
