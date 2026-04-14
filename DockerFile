@@ -1,35 +1,24 @@
-# 1-bosqich: Build qilish
-FROM node:18-alpine AS build
+# 1-bosqich: Node obrazini tanlaymiz
+FROM node:18-alpine
 WORKDIR /app
 
+# Bog'liqliklarni o'rnatish
 COPY package.json package-lock.json ./
 RUN npm install
 
+# Loyiha kodini nusxalash
 COPY . .
 
-# Railway build o'zgaruvchilarini qabul qilish
+# Railway build o'zgaruvchisini qabul qilish
 ARG VITE_API_URL
 ENV VITE_API_URL=$VITE_API_URL
 
-# Vite build natijani 'dist' papkasiga tashlaydi
+# Loyihani build qilish
 RUN npm run build
 
-# 2-bosqich: Nginx orqali tarqatish
-FROM nginx:stable-alpine
+# Portni ochish
+EXPOSE 5173
 
-# DIQQAT: Vite-da 'dist' papkasidan nusxa olinadi (React-da 'build' edi)
-COPY --from=build /app/dist /usr/share/nginx/html
-
-# SPA (Single Page Application) uchun Nginx konfiguratsiyasini to'g'rilash
-# Sahifani refresh qilganda 404 chiqmasligi uchun kerak
-RUN echo 'server { \
-    listen 80; \
-    location / { \
-        root /usr/share/nginx/html; \
-        index index.html; \
-        try_files $uri $uri/ /index.html; \
-    } \
-}' > /etc/nginx/conf.d/default.conf
-
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+# Vite-ni barcha interfeyslar (0.0.0.0) uchun 5173 portida ishga tushiramiz
+# --host 0.0.0.0 qatori 502 xatosini yo'qotish uchun ENG MUHIMI
+CMD ["npx", "vite", "preview", "--host", "0.0.0.0", "--port", "5173"]
